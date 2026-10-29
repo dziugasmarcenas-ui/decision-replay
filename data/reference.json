@@ -1,0 +1,12 @@
+{
+  "notice": "Synthetic demonstration data; all records and limits are invented.",
+  "specification": {
+    "id": "SYN-SPEC-R4",
+    "effectiveAt": "2026-09-01T00:00:00Z",
+    "floorPct": { "450": 97.2, "500": 97.8, "532": 98.0, "600": 98.1, "700": 98.0, "800": 97.8, "900": 97.8, "1064": 98.2, "1200": 97.6 }
+  },
+  "calibrations": [
+    { "id": "SYN-CAL-022", "validFrom": "2026-09-01T00:00:00Z", "validUntil": "2026-10-30T00:00:00Z", "instrumentClass": "SYN-SPECTROMETER" },
+    { "id": "SYN-CAL-023", "validFrom": "2026-09-01T00:00:00Z", "validUntil": "2026-10-30T00:00:00Z", "instrumentClass": "SYN-SPECTROMETER" }
+  ]
+}
