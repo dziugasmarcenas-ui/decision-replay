@@ -13,24 +13,23 @@
 <body>
   <a class="skip-link" href="#workspace">Skip to the demo</a>
   <header class="site-header wrap">
-    <a class="wordmark" href="./" aria-label="Decision Replay home"><span class="mark" aria-hidden="true">↶</span> Decision Replay</a>
-    <nav aria-label="Project"><span class="synthetic">Synthetic data</span><a href="https://github.com/dziugasmarcenas-ui/decision-replay">Source code ↗</a></nav>
+    <a class="wordmark" href="./" aria-label="Decision Replay home"><svg class="mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8a8 8 0 1 1-1 10M5 8V3M5 8h5"/></svg>Decision Replay</a>
+    <nav aria-label="Project"><span class="synthetic">Synthetic data</span><a href="https://github.com/dziugasmarcenas-ui/decision-replay">Source code<svg class="icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 15 15 5M5 5h10v10"/></svg></a></nav>
   </header>
   <main class="wrap">
     <section class="intro" aria-labelledby="title">
-      <p class="kicker">An interactive engineering case study</p>
-      <h1 id="title">What happens when the<br>evidence changes?</h1>
+      <h1 id="title">What happens when the evidence changes?</h1>
       <p class="lede">A measurement passes. A later calibration finding changes what it can support. Replay the decisions that came between.</p>
-      <div class="scenario-note"><span class="scenario-number">01</span><p><strong>The scenario</strong> Three optical components, two CSV exports, one late correction. All records, limits and decisions are invented.</p></div>
+      <p class="scenario-note">Three optical components, two CSV exports, one late correction. All records, limits and decisions are invented.</p>
     </section>
 
     <section id="workspace" class="workspace" aria-label="Interactive decision replay" tabindex="-1">
       <div class="workspace-bar"><div><span class="status-dot" id="load-dot" aria-hidden="true"></span><span id="load-status" role="status">Loading synthetic fixtures…</span></div><label>Component <select id="part" disabled><option>SYN-OPT-014</option><option>SYN-OPT-015</option><option>SYN-OPT-016</option></select></label></div>
       <div id="load-error" class="error" role="alert" hidden></div>
       <div class="actions" aria-label="Run the scenario">
-        <button id="propose" disabled><span class="action-index">1</span><span><strong>Propose release</strong><small>Evaluate all three components</small></span><span class="arrow" aria-hidden="true">→</span></button>
-        <button id="human" disabled><span class="action-index">2</span><span><strong>Record human hold</strong><small>Keep the review separate</small></span><span class="arrow" aria-hidden="true">→</span></button>
-        <button id="correct" disabled><span class="action-index">3</span><span><strong>Withdraw calibration</strong><small>Append a backdated finding</small></span><span class="arrow" aria-hidden="true">↶</span></button>
+        <button id="propose" disabled><span class="action-index" aria-hidden="true">1</span><span><strong>Propose release</strong><small>Evaluate all three components</small></span></button>
+        <button id="human" disabled><span class="action-index" aria-hidden="true">2</span><span><strong>Record human hold</strong><small>Keep the review separate</small></span></button>
+        <button id="correct" disabled><span class="action-index" aria-hidden="true">3</span><span><strong>Withdraw calibration</strong><small>Append a backdated finding</small></span></button>
       </div>
       <p id="action-hint" class="action-hint">The fixtures load automatically. Start with “Propose release”.</p>
 
@@ -41,25 +40,23 @@
           <div id="chart" class="chart" role="img" aria-label="Loading measurement"></div>
           <div class="legend"><span><i class="measured-line"></i>Measured transmission</span><span><i class="floor-line"></i>Specification floor</span></div>
           <details class="numeric-data"><summary>Read the chart values</summary><div id="measurement-table"></div></details>
-          <div class="source-heading"><h3>Source to component</h3><span class="muted">SHA-256 fingerprints</span></div>
-          <div id="sources" class="sources"></div>
-          <p class="source-note">Hashes identify the fixture contents. They do not prove authenticity.</p>
+          <details class="provenance"><summary><span>Source provenance</span><span class="detail-meta">Two CSV files</span></summary><div id="sources" class="sources"></div><p class="source-note">Hashes identify the fixture contents. They do not prove authenticity.</p></details>
         </section>
 
         <aside class="decision" aria-labelledby="decision-title">
           <div class="section-head"><h2 id="decision-title">Decision at this point</h2><span id="position" class="mono">—</span></div>
-          <div id="verdict" class="verdict" data-kind="abstain"><span id="verdict-label">Loading</span><code id="reason">—</code></div>
+          <div id="verdict" class="verdict" data-kind="abstain"><span class="verdict-icon" aria-hidden="true"></span><div><span id="verdict-label">Loading</span><code id="reason">—</code></div></div>
           <p id="explanation" class="explanation">Reading the checked-in source files.</p>
           <p class="rule">Rule version <code id="rule">—</code></p>
           <h3>Evidence used</h3><ul id="evidence" class="evidence"></ul>
-          <div class="record original"><span class="record-label">Original proposal</span><strong id="proposal-verdict">Not proposed</strong><small id="proposal-detail">Step 1 captures the evidence and rule version.</small></div>
+          <div class="record original"><div class="record-heading"><span class="record-label">Original proposal</span><span id="proposal-status" class="record-status" hidden>Preserved</span></div><strong id="proposal-verdict">Not proposed</strong><small id="proposal-detail">Step 1 captures the evidence and rule version.</small></div>
           <div class="record"><span class="record-label">Human action</span><strong id="human-verdict">Not reviewed</strong><small id="human-detail">A human hold will not overwrite the proposal.</small></div>
         </aside>
       </div>
 
       <div class="history-grid">
         <section class="history" aria-labelledby="history-title">
-          <div class="section-head"><h2 id="history-title">Replay the history</h2><button id="reset" class="text-button" disabled>Reset scenario ↺</button></div>
+          <div class="section-head"><h2 id="history-title">Replay the history</h2><button id="reset" class="text-button" disabled>Reset scenario<svg class="icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7a6 6 0 1 1 0 6M4 7V3M4 7h4"/></svg></button></div>
           <label class="range-label" for="playhead">Events visible <output id="event-count" for="playhead">0 / 0</output></label>
           <input id="playhead" type="range" min="0" max="0" value="0" disabled>
           <p id="replay-note" class="muted">Move backward to inspect what was known before the correction arrived.</p>
@@ -72,7 +69,7 @@
           <div class="stats"><div><strong id="proposal-count">0</strong><span>proposals</span></div><div><strong id="disagreement-count">0</strong><span>human disagreements</span></div><div><strong id="pending-count">0</strong><span>awaiting review</span></div></div>
         </section>
       </div>
-      <div class="workspace-footer"><span>Runs in your browser · no external services · resets on reload</span><button id="export" class="text-button" disabled>Download run JSON ↓</button></div>
+      <div class="workspace-footer"><span>Runs in your browser · no external services · resets on reload</span><button id="export" class="text-button" disabled>Download run JSON<svg class="icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3v9m-4-4 4 4 4-4M4 14v3h12v-3"/></svg></button></div>
     </section>
 
     <section class="engineering" aria-labelledby="engineering-title"><h2 id="engineering-title">What this demonstrates</h2><div class="engineering-grid"><p><strong>One identity, unlike sources.</strong> Different field names and part aliases normalize to a shared event history. Raw identifiers remain attached.</p><p><strong>Decisions have a basis.</strong> Each proposal captures the rule version and evidence IDs. A human action is a separate record.</p><p><strong>A correction adds history.</strong> A later finding changes current eligibility without rewriting earlier proposals. Scrub backward to see the difference.</p></div></section>
