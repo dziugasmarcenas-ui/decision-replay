@@ -30,3 +30,7 @@ Keep the synthetic-data notice and production limitations visible. Presentation 
 ## Copy restraint
 
 Use layout, sequence and enabled states to explain the flow. Omit repeated instructions, button subtitles and promotional explanation sections. Keep the decision rationale, record identities, chart legend, synthetic-data boundary and accessible names. Show historical-view context only while viewing earlier events.
+
+## Great UI adaptation
+
+Reference: https://www.great-ui.com/components/revision-timeline and /components/accordion. History uses an event dial with a selected-event summary and previous/next controls. Equal spacing represents append order, not elapsed time. A restrained plus/minus affordance distinguishes native disclosures. Preserve the existing light palette and copy restraint; no marketing-page treatment or framework migration. See docs/great-ui.md.

@@ -121,14 +121,31 @@ summary { min-height: 44px; align-content: center; }
 .range-label { display: flex; justify-content: space-between; gap: 12px; color: var(--muted); font-size: 12px; margin-top: 18px; }
 .range-label output { font: 12px ui-monospace, monospace; color: var(--ink); }
 input[type="range"] { display: block; width: 100%; height: 24px; margin: 16px 0 10px; accent-color: var(--blue); cursor: ew-resize; }
-.events { display: flex; overflow-x: auto; gap: 8px; margin-top: 18px; padding: 5px 3px 12px; scrollbar-width: thin; scrollbar-color: #a9b9ba transparent; }
-.event { flex: 0 0 126px; min-width: 0; min-height: 92px; padding: 11px; text-align: left; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); position: relative; }
-.event[aria-current="true"] { border-color: var(--blue); background: #edf3f7; box-shadow: inset 0 0 0 1px var(--blue); }
-.event.future { color: #68797f; background: var(--subtle); }
-.event small { font: 10px ui-monospace, monospace; color: var(--muted); }
-.event strong { display: block; font-size: 12px; font-weight: 600; margin: 9px 0 5px; }
-.event code { font-size: 9px; display: block; }
-.event.correction small { color: var(--red); }
+.events { position: relative; display: flex; justify-content: safe center; overflow-x: auto; gap: 0; margin-top: 16px; padding: 5px 3px 12px; scrollbar-width: thin; scrollbar-color: #a9b9ba transparent; }
+.event { flex: 0 0 44px; width: 44px; height: 88px; padding: 0 5px; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 10px; background: transparent; border: 0; border-radius: 6px; }
+.event-tick { display: block; width: 4px; height: 18px; border-radius: 3px; background: #8f9fa5; }
+.event[data-distance="0"] .event-tick { height: 54px; background: var(--accent); }
+.event[data-distance="1"] .event-tick { height: 44px; }
+.event[data-distance="2"] .event-tick { height: 33px; }
+.event[data-distance="3"] .event-tick { height: 24px; }
+.event.future .event-tick { background: #c5cfd1; }
+.event small { color: var(--muted); font: 10px ui-monospace, monospace; }
+.event[aria-current="true"] small { color: var(--accent); font-weight: 700; }
+.revision-navigation { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 18px; }
+.icon-button { display: grid; place-items: center; width: 44px; height: 44px; flex: none; padding: 11px; border: 1px solid var(--line); border-radius: 9px; background: var(--paper); color: var(--ink); }
+.icon-button svg { width: 20px; height: 20px; }
+.icon-button:disabled { color: #788990; background: var(--subtle); }
+.event-preview { text-align: center; min-width: 0; }
+.event-preview strong { display: block; font-size: 13px; font-weight: 600; }
+.event-preview code { display: block; margin-top: 4px; color: var(--muted); font-size: 11px; }
+summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; list-style: none; }
+summary::-webkit-details-marker { display: none; }
+.disclosure-icon { display: inline-flex; width: 18px; height: 18px; color: var(--muted); flex: none; margin-left: auto; }
+.disclosure-icon svg { width: 100%; height: 100%; }
+details[open] > summary .disclosure-vertical { visibility: hidden; }
+.numeric-data summary { width: 100%; border-bottom: 1px solid var(--line); }
+.provenance { margin-top: 0; border-top: 0; }
+.decision-details > summary { border-bottom: 1px solid var(--line); }
 .impact-count { display: inline-grid; place-items: center; min-width: 30px; height: 30px; padding-inline: 7px; border-radius: 7px; background: #f6eee7; color: var(--red); font: 15px ui-monospace, monospace; }
 .impacts { margin: 20px 0; min-height: 98px; }
 .empty { color: var(--muted); font-size: 13px; line-height: 1.7; padding-block: 8px; max-width: 34ch; }
@@ -152,7 +169,7 @@ input[type="range"] { display: block; width: 100%; height: 24px; margin: 16px 0 
   .site-header nav a:hover, .text-button:not(:disabled):hover { text-decoration: underline; }
   select:hover { border-color: #9bafb4; }
   .actions button[data-state="ready"]:hover { background: #334c58; border-color: #334c58; }
-  .event:hover { border-color: #819ca8; background: #f4f7f8; }
+  .event:hover, .icon-button:not(:disabled):hover { background: #f0f3f3; }
   summary:hover { color: var(--ink); }
 }
 @media (prefers-reduced-motion: no-preference) {

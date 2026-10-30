@@ -7,6 +7,8 @@ const labels = { specification: 'Specification', calibration: 'Calibration', coa
 const names = { release: 'Release eligible', hold: 'Hold', abstain: 'Not established' };
 const icon = path => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="${path}"/></svg>`;
 const checkIcon = icon('m6 12 4 4 8-8');
+const disclosureIcon = '<span class="disclosure-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M6 12h12"/><path class="disclosure-vertical" d="M12 6v12"/></svg></span>';
+document.querySelectorAll('summary').forEach(summary => summary.insertAdjacentHTML('beforeend', disclosureIcon));
 let baseline = [], events = [], through = 0, selected = 'SYN-OPT-014';
 
 async function fingerprint(value) {
@@ -30,7 +32,7 @@ function chart(measurement, spec) {
 
 function sourceCard(event, filename) {
   if (!event) return `<div class="source"><a href="./data/${filename}">${filename}</a><p>No record visible yet.</p></div>`;
-  return `<div class="source"><a href="./data/${filename}">${filename}</a><p><span>Raw part</span> ${escape(event.source.rawPart)}<br><span>Record</span> ${escape(event.source.rawId)}</p><details class="source-meta"><summary>SHA-256 <code>${escape(event.source.sha256.slice(0, 12))}…</code></summary><code>${escape(event.source.sha256)}</code></details></div>`;
+  return `<div class="source"><a href="./data/${filename}">${filename}</a><p><span>Raw part</span> ${escape(event.source.rawPart)}<br><span>Record</span> ${escape(event.source.rawId)}</p><details class="source-meta"><summary>SHA-256 <code>${escape(event.source.sha256.slice(0, 12))}…</code>${disclosureIcon}</summary><code>${escape(event.source.sha256)}</code></details></div>`;
 }
 
 function renderSteps(state, human, atHead, corrected) {
@@ -52,12 +54,26 @@ function renderSteps(state, human, atHead, corrected) {
 function renderTimeline() {
   const container = $('#events');
   if (container.children.length !== events.length) {
-    container.innerHTML = events.map((event, i) => `<button class="event${event.type === 'calibration_correction' ? ' correction' : ''}" data-through="${i + 1}" aria-label="Show history through event ${i + 1}: ${escape(labels[event.type])}, ${escape(event.id)}"><small>${String(i + 1).padStart(2, '0')}</small><strong>${escape(labels[event.type])}</strong><code>${escape(event.id)}</code></button>`).join('');
+    container.innerHTML = events.map((event, i) => `<button class="event${event.type === 'calibration_correction' ? ' correction' : ''}" data-through="${i + 1}" title="${escape(labels[event.type])} · ${escape(event.id)}" aria-label="Show history through event ${i + 1}: ${escape(labels[event.type])}, ${escape(event.id)}"><span class="event-tick" aria-hidden="true"></span><small aria-hidden="true">${String(i + 1).padStart(2, '0')}</small></button>`).join('');
   }
   [...container.children].forEach((button, index) => {
     button.classList.toggle('future', index >= through);
     button.setAttribute('aria-current', String(through === index + 1));
+    button.dataset.distance = Math.min(4, Math.abs(through - index - 1));
   });
+  const event = events[through - 1];
+  $('#event-preview').innerHTML = event ? `<strong>${escape(labels[event.type])}</strong><code>${escape(event.id)}</code>` : '<strong>Before first event</strong>';
+  $('#event-prev').disabled = through === 0;
+  $('#event-next').disabled = through === events.length;
+  revealSelectedEvent();
+}
+
+function revealSelectedEvent() {
+  const container = $('#events');
+  const active = container.querySelector('[aria-current="true"]');
+  if (!active) return;
+  if (active.offsetLeft < container.scrollLeft) container.scrollLeft = active.offsetLeft;
+  else if (active.offsetLeft + active.offsetWidth > container.scrollLeft + container.clientWidth) container.scrollLeft = active.offsetLeft + active.offsetWidth - container.clientWidth;
 }
 
 function render() {
@@ -126,6 +142,13 @@ $('#human').addEventListener('click', () => act(() => appendHuman(events, select
 $('#correct').addEventListener('click', () => act(() => appendCalibrationCorrection(events, 'SYN-CAL-022', '2026-09-20T00:00:00Z'), 'Calibration correction recorded. Two earlier proposals need review.'));
 $('#part').addEventListener('change', event => { selected = event.target.value; render(); text('#announcement', `Selected ${selected}. ${evaluate(events, selected, through).explanation}`); });
 $('#playhead').addEventListener('input', event => { through = Number(event.target.value); render(); text('#announcement', `Showing ${through} of ${events.length} events. ${evaluate(events, selected, through).explanation}`); });
+for (const [selector, step] of [['#event-prev', -1], ['#event-next', 1]]) {
+  $(selector).addEventListener('click', () => {
+    through = Math.max(0, Math.min(events.length, through + step));
+    render();
+    if ($(selector).disabled) $(step < 0 ? '#event-next' : '#event-prev').focus({ preventScroll: true });
+  });
+}
 $('#events').addEventListener('click', event => { const button = event.target.closest('[data-through]'); if (button) { through = Number(button.dataset.through); render(); $(`#events [data-through="${through}"]`).focus({ preventScroll: true }); text('#announcement', `Showing history through event ${through}.`); } });
 $('#reset').addEventListener('click', () => act(() => { selected = 'SYN-OPT-014'; $('#part').value = selected; return structuredClone(baseline); }, 'Scenario reset to the original source events.'));
 $('#export').addEventListener('click', () => {
@@ -157,6 +180,7 @@ async function boot() {
   }
 }
 let chartWidth = 0;
+new ResizeObserver(revealSelectedEvent).observe($('#events'));
 new ResizeObserver(entries => {
   const width = Math.round(entries[0].contentRect.width);
   if (width === chartWidth || !events.length) return;

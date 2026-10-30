@@ -56,6 +56,7 @@
           <label class="range-label" for="playhead">Events <output id="event-count" for="playhead">0 / 0</output></label>
           <input id="playhead" type="range" min="0" max="0" value="0" disabled>
           <p id="replay-note" class="muted" hidden></p>
+          <div class="revision-navigation"><button id="event-prev" class="icon-button" type="button" aria-label="Previous event" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5m7-7-7 7 7 7"/></svg></button><div id="event-preview" class="event-preview" aria-live="polite"></div><button id="event-next" class="icon-button" type="button" aria-label="Next event" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></button></div>
           <div id="events" class="events" aria-label="Event history"></div>
         </section>
         <section class="impact" aria-labelledby="impact-title">
