@@ -22,8 +22,8 @@
       <p class="lede">Replay a release decision after its calibration evidence changes.</p>
     </section>
 
-    <section id="workspace" class="workspace" aria-label="Interactive decision replay" tabindex="-1">
-      <div class="workspace-bar"><div><span class="status-dot" id="load-dot" aria-hidden="true"></span><span id="load-status" role="status">Loading synthetic fixtures…</span></div><label>Component <select id="part" disabled><option>SYN-OPT-014</option><option>SYN-OPT-015</option><option>SYN-OPT-016</option></select></label></div>
+    <section id="workspace" class="workspace" aria-busy="true" aria-label="Interactive decision replay" tabindex="-1">
+      <div class="workspace-bar"><div><span class="load-indicator" aria-hidden="true"><span class="dotmatrix" id="fixture-loader"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="status-dot" id="load-dot" hidden></span></span><span id="load-status" role="status">Loading synthetic fixtures…</span></div><label>Component <select id="part" disabled><option>SYN-OPT-014</option><option>SYN-OPT-015</option><option>SYN-OPT-016</option></select></label></div>
       <div id="load-error" class="error" role="alert" hidden></div>
       <div class="actions" aria-label="Run the scenario">
         <button id="propose" disabled><span class="action-index" aria-hidden="true">1</span><span><strong>Propose release</strong></span></button>

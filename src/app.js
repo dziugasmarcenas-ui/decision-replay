@@ -145,11 +145,15 @@ async function boot() {
     for (const id of ['#part', '#playhead', '#reset', '#export']) $(id).disabled = false;
     text('#load-status', 'Ready');
     $('#load-dot').classList.add('ready');
+    $('#load-dot').hidden = false;
     render();
   } catch (error) {
     text('#load-status', 'Fixtures could not be loaded');
     text('#load-error', `${error.message} Start a local server with npm start, or use the hosted demo. No decisions are available.`);
     $('#load-error').hidden = false;
+  } finally {
+    $('#fixture-loader').hidden = true;
+    $('#workspace').setAttribute('aria-busy', 'false');
   }
 }
 let chartWidth = 0;
