@@ -14,7 +14,7 @@ Mode: **Operate**. A reviewer should reach the interactive measurement and decis
 
 ## Interaction
 
-- Sequential controls distinguish ready, complete, waiting and historical states. Completion is shown with a check and descriptive text, not faded opacity.
+- Sequential controls distinguish ready, complete, waiting and historical states. Completion is shown with a check and an accessible state label, not faded opacity.
 - Historical proposals retain their original neutral presentation. A `Preserved` label distinguishes a snapshot from changed current eligibility; it is not styled as an error.
 - Provenance opens in a native disclosure. Short hashes expand to full fingerprints. No evidence is discarded.
 - The chart draws at its container width so tick labels retain readable sizing on small screens. The numeric table remains available as a text alternative.
@@ -23,6 +23,10 @@ Mode: **Operate**. A reviewer should reach the interactive measurement and decis
 
 ## Responsive behaviour
 
-The measurement and current decision share a two-column workspace above 720 px. Below that, they stack. The three scenario steps retain their order in a compact row; secondary button descriptions are hidden on small screens, while complete/ready states remain visible. Source details collapse to one column on narrow phones. Native controls have at least 44 px tap height.
+The measurement and current decision share a two-column workspace above 720 px. Below that, they stack. The three scenario steps retain their order in a compact row; button labels carry the actions without subtitles, while complete/ready states remain visible. Source details collapse to one column on narrow phones. Native controls have at least 44 px tap height.
 
 Keep the synthetic-data notice and production limitations visible. Presentation changes must not alter the domain rules or imply production authority.
+
+## Copy restraint
+
+Use layout, sequence and enabled states to explain the flow. Omit repeated instructions, button subtitles and promotional explanation sections. Keep the decision rationale, record identities, chart legend, synthetic-data boundary and accessible names. Show historical-view context only while viewing earlier events.

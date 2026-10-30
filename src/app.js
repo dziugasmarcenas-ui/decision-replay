@@ -44,7 +44,6 @@ function renderSteps(state, human, atHead, corrected) {
     button.disabled = !atHead || unavailable;
     button.dataset.state = done ? 'complete' : !atHead ? 'history' : button.disabled ? 'waiting' : 'ready';
     button.querySelector('.action-index').innerHTML = done ? checkIcon : String(index + 1);
-    button.querySelector('small').textContent = done ? confirmations[index] : descriptions[index];
     const accessibleStatus = done ? `Completed. ${confirmations[index]}` : descriptions[index];
     button.setAttribute('aria-label', `${button.querySelector('strong').textContent}. ${accessibleStatus}`);
   });
@@ -89,21 +88,21 @@ function render() {
   text('#rule', result.ruleVersion);
   $('#evidence').innerHTML = result.evidenceIds.map(id => `<li>${escape(id)}</li>`).join('') || '<li>No supporting evidence yet</li>';
   text('#proposal-verdict', proposal ? names[proposal.snapshot.disposition] : 'Not proposed');
-  text('#proposal-detail', proposal ? `${proposal.id} · ${proposal.snapshot.reasonCode} · ${proposal.ruleVersion}` : 'Step 1 captures the evidence and rule version.');
+  text('#proposal-detail', proposal ? `${proposal.id} · ${proposal.snapshot.reasonCode} · ${proposal.ruleVersion}` : '');
   $('#proposal-status').hidden = !proposal || proposal.snapshot.reasonCode === result.reasonCode;
   text('#human-verdict', human ? names[human.disposition] : 'Not reviewed');
-  text('#human-detail', human ? `${human.id} · reviews ${human.proposalId}. ${human.note}` : 'A human hold will not overwrite the proposal.');
+  text('#human-detail', human ? `${human.id} · reviews ${human.proposalId}. ${human.note}` : '');
 
   renderSteps(state, human, atHead, corrected);
-  text('#action-hint', !atHead ? 'Viewing earlier history. Return the slider to the end to record another action.' : corrected ? 'The correction is recorded. Compare the original proposal, inspect the impact, or replay the earlier history.' : state.humanActions.length ? 'Append the calibration finding. The earlier proposal and human action will stay in the history.' : state.proposals.length ? 'Two components were eligible; one is below the invented limit. Record a human hold for the selected component.' : 'Start with “Propose release” to capture a proposal for each component.');
   $('#playhead').max = events.length;
   $('#playhead').value = through;
   $('#playhead').setAttribute('aria-valuetext', `${through} of ${events.length} events${through ? `; ${labels[events[through - 1].type]}` : '; no evidence yet'}${atHead ? '; latest' : '; historical view'}`);
   text('#event-count', `${through} / ${events.length}`);
-  text('#replay-note', atHead ? 'Showing all recorded events. Scrub backward to inspect earlier evidence.' : `Historical view: ${events.length - through} later event(s) hidden. Writes are disabled.`);
+  text('#replay-note', `Historical view · ${events.length - through} later events`);
+  $('#replay-note').hidden = atHead;
   renderTimeline();
   text('#impact-count', affected.length);
-  $('#impacts').innerHTML = affected.length ? affected.map(item => `<div class="impact-row"><strong>${escape(item.partId)} · ${escape(item.proposalId)}</strong><p>${escape(names[item.before.disposition])} → ${escape(names[item.now.disposition])}</p><p>Correction <code>${escape(item.correctedRecordId)}</code></p></div>`).join('') : `<p class="empty">${corrected ? 'No earlier proposal in this view needs review.' : 'No correction has been recorded at this point.'}</p>`;
+  $('#impacts').innerHTML = affected.length ? affected.map(item => `<div class="impact-row"><strong>${escape(item.partId)} · ${escape(item.proposalId)}</strong><p>${escape(names[item.before.disposition])} → ${escape(names[item.now.disposition])}</p><p>Correction <code>${escape(item.correctedRecordId)}</code></p></div>`).join('') : `<p class="empty">No proposals to review.</p>`;
   text('#proposal-count', stats.proposals);
   text('#disagreement-count', stats.disagreements);
   text('#pending-count', stats.pending);
@@ -144,7 +143,7 @@ async function boot() {
     baseline = normalizeExports({ coatingCsv, spectralCsv, reference: JSON.parse(referenceText), hashes: { coating, spectral, reference } });
     events = structuredClone(baseline); through = events.length;
     for (const id of ['#part', '#playhead', '#reset', '#export']) $(id).disabled = false;
-    text('#load-status', 'Three components · two CSV sources');
+    text('#load-status', 'Ready');
     $('#load-dot').classList.add('ready');
     render();
   } catch (error) {
